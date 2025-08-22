@@ -13,7 +13,7 @@ class Token
      * $info is some information that changes after the token has been used
      * @param mixed $payload
      */
-    public static function encode($payload, string $info = '', string $secret): string
+    public static function encode($payload, string $info, string $secret): string
     {
         $str = rtrim(base64_encode(json_encode($payload)), '=');
         $sig = self::generateSignature($str, $info, $secret);
@@ -26,7 +26,7 @@ class Token
      * @throws \RuntimeException if the token is invalid
      * @return mixed
      */
-    public static function decode(string $token, ?callable $callback = null, string $secret)
+    public static function decode(string $token, ?callable $callback, string $secret)
     {
         try {
             list($str, $sig) = explode(':', strtr($token, '-_', '+/'));
